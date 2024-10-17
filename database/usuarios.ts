@@ -3,50 +3,44 @@ import { getPoolConnection} from "./data";
 import { Usuarios } from "../models/usuarios";
 
 export class UsuarioRepository {
-    async agregarUsuario(usuarios: Usuarios):  Promise<ResultSetHeader>{
+    async agregar(usuarios: Usuarios):  Promise<ResultSetHeader>{
       // Acceso a la base de datos - conexion
       const connection: Pool = getPoolConnection();
       // NOTA: Muy importante el orden de los parametros
       const querySql = `INSERT INTO usuarios (nombre, email, telefono) VALUES (?,?,?)`;
       const values = [usuarios.nombre, usuarios.email, usuarios.telefono];
-  
-      const result = await connection.query(querySql, values);
-      return result;
+      const result: [ResultSetHeader, FieldPacket[]] =await connection.query(querySql, values);
+      return result[0];
     }
   
-    async obtenerUsuarios() {
+    async obtener() {
       const connection = getPoolConnection();
       const querySql = `SELECT * FROM usuarios`;
       const result = await connection.query(querySql);
-      return result;
+      return result[0];
     }
   
-    async obtenerCliente(idusuarios: number): Promise<RowDataPacket[]> {
+    async obtenerPorId(id: number): Promise<RowDataPacket[]> {
       const connection = getPoolConnection();
       const querySql = `SELECT * FROM usuarios WHERE id = ?`;
-      const values = [idusuarios];
+      const values = [id];
       const queryResult = await connection.query<RowDataPacket[]>(querySql, values);
       return queryResult[0];
     }
   
-    async modificarUsuarios(usuarios: Usuarios) {
+    async actualizar(usuarios: Usuarios) {
       const connection = getPoolConnection();
       const querySql = `UPDATE usuarios SET nombre = ?, email = ?, telefono = ? WHERE id = ?`;
-      const values = [
-        usuarios.nombre,
-        usuarios.email,
-        usuarios.telefono,
-        usuarios.id,
-      ];
+      const values = [usuarios.nombre, usuarios.email, usuarios.telefono, usuarios.id,];
       const result = await connection.query<ResultSetHeader>(querySql, values);
       return result[0];
     }
   
-    async eliminarUsuarios(idusuarios: number) {
+    async eliminar(id: number): Promise<ResultSetHeader> {
       const connection = getPoolConnection();
       const querySql = `DELETE FROM usuarios WHERE id = ?`;
-      const values = [idusuarios];
-      const result = await connection.query(querySql, values);
-      return result;
+      const values = [id];
+      const result : [ResultSetHeader, FieldPacket[]]= await connection.query(querySql, values);
+      return result[0];
     }
   }

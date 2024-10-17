@@ -1,13 +1,18 @@
-export class Usuarios{
+export class Vehiculos{
     id?: number
     marca: string
     modelo: string
     anio: number
 
-    constructor(id:number, marca:string, modelo:string, anio:number){
-        this.id = id
-        this.marca = marca
-        this.modelo = modelo
-        this.anio = anio
+    constructor(infoVehiculos:{
+        id:number
+         marca:string 
+         modelo:string
+         anio:number
+    }){
+        this.id = infoVehiculos.id
+        this.marca = infoVehiculos.marca
+        this.modelo = infoVehiculos.modelo
+        this.anio = infoVehiculos.anio
     }
 }

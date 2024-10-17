@@ -1,13 +1,18 @@
 export class Reservas{
-    id?: number
-    usuario_id: number
-    vehiculo_id: number
-    fecha_reserva: string|number
+    id?: number;
+    usuario_id: number;
+    vehiculo_id: number;
+    fecha_reserva: string|number;
 
-    constructor(id:number, usuario_id:number, vehiculo_id:number, fecha_reserva:string|number){
-        this.id = id
-        this.usuario_id = usuario_id
-        this.vehiculo_id = vehiculo_id
-        this.fecha_reserva = fecha_reserva
+    constructor(infoReservas:{
+        id:number;
+        usuario_id:number;
+        vehiculo_id:number;
+        fecha_reserva:string|number;
+    }){
+        this.id = infoReservas.id;
+        this.usuario_id = infoReservas.usuario_id;
+        this.vehiculo_id = infoReservas.vehiculo_id;
+        this.fecha_reserva = infoReservas.fecha_reserva;
     }
 }

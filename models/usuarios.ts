@@ -4,10 +4,15 @@ export class Usuarios{
     email: string
     telefono: number
 
-    constructor(id:number, nombre:string, email:string, telefono:number){
-        this.id = id
-        this.nombre = nombre
-        this.email = email
-        this.telefono = telefono
+    constructor(infoUsuarios:{
+        id:number 
+        nombre:string 
+        email:string 
+        telefono:number
+    }){
+        this.id = infoUsuarios.id
+        this.nombre = infoUsuarios.nombre
+        this.email = infoUsuarios.email
+        this.telefono = infoUsuarios.telefono
     }
 }
