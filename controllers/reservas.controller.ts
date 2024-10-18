@@ -8,7 +8,7 @@ export class ReservasController {
   constructor() {
     this.repository = new ReservasRepository();
   }
-
+//AGREGAR
   async agregar(payload: {
     id: number
     usuario_id: number;
@@ -26,17 +26,16 @@ export class ReservasController {
       });
       const resultado = await this.repository.agregar(reservas);
       if (resultado.affectedRows == 1) {
-        console.log(`Reserva registrada con el id: ${resultado.insertId}`);
+        return {ok: true, id: resultado.insertId};
       } else {
-        console.log("La Reserva no se registró");
-      }
-      return resultado;
+        return {ok: false, message:"La Reserva no se registró"};
+      }   
     } catch (error: any) {
-      console.log("Ha ocurrido un error al hacer la reserva.", error?.message);
-      return error;
+      console.log("Ha ocurrido un error al crear la reserva.", error?.message);
+      throw error;
     }
   }
-
+//ACTUALIZAR
   async actualizar(payload: {
     id: number;
     usuarios_id: number;
@@ -52,59 +51,62 @@ export class ReservasController {
       });
       const resultado = await this.repository.actualizar(reservas);
       if (resultado.affectedRows === 1) {
-        console.log("Reserva actualizada");
+        return {ok: true, message:"Reserva actualizada"};
       } else {
-        console.log("No se pudo actualizar la Reserva");
-      }
-        return resultado;
+        return {ok: false, message:"No se pudo actualizar la Reserva"};
+      }    
     } catch (error) {
       console.log("Ha ocurrido un error actualizando");
-      return error;
+      throw error;
     }
   }
 
-
+//OBTENER
   async obtener() {
     try {
       const resultado = await this.repository.obtener();
-      console.log("Reservas");
-      console.log(resultado);
       return resultado;
     } catch (error) {
       console.log("Ha ocurrido un error al consultar las reservas.");
-      return error;
+      throw error;
     }
   }
-
+//OBTENER BY ID
   async obtenerPorId(id: number) {
     try {
       const resultado = await this.repository.obtenerPorId(id);
       if (resultado.length == 1) {
-        console.log("Reserva consultada");
         console.log(resultado[0]);
       } else {
-        console.log("No se encontro la Reserva");
+        return null;
       }
-      return resultado;
     } catch (error) {
       console.log("Ha ocurrido un error al consultar la reserva.");
-      return error;
+      throw error;
     }
   }
+//ELIMINAR
+  async eliminar(id: number) {
+    const resultado: ResultSetHeader = await this.repository.eliminar(id);
+    if (resultado.affectedRows == 1) {
+      return { ok: true, message: "Reserva eliminada" };
+    } else {
+      return { ok: false, message: "No se pudo eliminar la reserva " }
 
-  eliminar(id: number) {
+
+  /*eliminar(id: number) {
     this.repository
       .eliminar(id)
-      .then((resultado: ResultSetHeader) => {
+      .then((resultado) => {
         if (resultado.affectedRows == 1) {
-          console.log(`Reserva eliminada`);
+          resolve({ ok: true, message: "Reserva eliminada" })
         } else {
-          console.log("No se pudo eliminar la reserva");
+          resolve({ ok: false, message: "No se pudo eliminar la reserva" });
         }
       })
       .catch((error) => {
-        console.log("Ha ocurrido un error eliminando.");
-        console.log(error);
-      });
+        reject({ ok: false, message: "Error al eliminar la reserva" });
+      });*/
   }
+}
 }

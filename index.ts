@@ -2,9 +2,7 @@
 // El servidor va a proveer el api-rest
 
 import Express from "express";
-import { routesReservas} from "./routes/reservas"
-import { routesUsuarios } from "./routes/usuarios";
-import { routesVehiculos } from "./routes/vehiculos";
+import { routes } from "./routes/index.routes";
 
 const createServer = () => {
   const app = Express();
@@ -21,9 +19,8 @@ const createServer = () => {
   });
 
   /// Importar la rutas
-  app.use('/api/v1', routesReservas());
-  app.use('/api/v1', routesUsuarios())
-  app.use('/api/v1', routesVehiculos())
+  app.use('/api/v1', routes());
+  
 
   
 

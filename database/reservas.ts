@@ -7,7 +7,7 @@ export class ReservasRepository {
       // Acceso a la base de datos - conexion
       const connection: Pool = getPoolConnection();
       // NOTA: Muy importante el orden de los parametros
-      const querySql = `INSERT INTO usuarios (nombre, email, telefono) VALUES (?,?,?)`;
+      const querySql = `INSERT INTO reservas (usuario_id, vehiculo_id, fecha_reserva) VALUES (?,?,?)`;
       const values = [reservas.usuario_id, reservas.vehiculo_id, reservas.fecha_reserva];
       const result: [ResultSetHeader, FieldPacket[]] =await connection.query(querySql, values);
       return result[0];

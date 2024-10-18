@@ -9,7 +9,7 @@ export class UsuariosController {
   constructor() {
     this.repository = new UsuarioRepository();
   }
-
+// AGREGAR
   async agregar(payload: {
     id: number
     nombre: string;
@@ -25,17 +25,19 @@ export class UsuariosController {
       });
       const resultado = await this.repository.agregar(usuarios);
       if (resultado.affectedRows == 1) {
-        console.log(`Usuario agregado con el id: ${resultado.insertId}`);
+        return {ok: true, id: resultado.insertId};
       } else {
-        console.log("El usuario no se agrego");
+        return {ok: false, message:"El usuario no se registró"};
       }
-      return resultado;
+      
     } catch (error: any) {
-      console.log("Ha ocurrido un error al guardar.", error?.message);
-      return error;
+      console.log("Ha ocurrido un error al registrar el usuario.", error?.message);
+      throw error;
     }
-  }
-
+  
+    }
+  
+//ACTUALIZAR
   async actualizar(payload: {
     id: number
     nombre: string;
@@ -51,18 +53,18 @@ export class UsuariosController {
       });
       const resultado = await this.repository.actualizar(usuarios);
       if (resultado.affectedRows === 1) {
-        console.log("Usuario actualizado");
+        return {ok: true, message:"Usuario actualizado"};
       } else {
-        console.log("No se pudo actualizar el usuario");
+        return {ok: false, message:"No se pudo actualizarel usuario"};
       }
-      return resultado;
+        
     } catch (error) {
       console.log("Ha ocurrido un error actualizando");
-      return error;
+      throw error;
     }
   }
 
-
+//OBTENER
   async obtener() {
     try {
       const resultado = await this.repository.obtener();
@@ -71,39 +73,46 @@ export class UsuariosController {
       return resultado;
     } catch (error) {
       console.log("Ha ocurrido un error al consultar los usuarios.");
-      return error;
+      throw error;
     }
   }
-
+//OBTENER BY ID
   async obtenerPorId(id:number) {
     try {
       const resultado = await this.repository.obtenerPorId(id);
       if (resultado.length == 1) {
-        console.log("Usuario consultado");
         console.log(resultado[0]);
       } else {
-        console.log("No se encontro el usuario");
+        return null
       }
       return resultado;
     } catch (error) {
-      console.log("Ha ocurrido un error al cnsultar el usuario.");
+      console.log("Ha ocurrido un error al consultar el usuario.");
       return error;
     }
   }
 
-  eliminar(id: number) {
+  //ELIMINAR
+  async eliminar(id: number) {
+    const resultado: ResultSetHeader = await this.repository.eliminar(id);
+    if (resultado.affectedRows == 1) {
+      return { ok: true, message: "Usuario eliminado" };
+    } else {
+      return { ok: false, message: "No se pudo eliminar el usuario" }
+
+  /*eliminar(id: number) {
     this.repository
       .eliminar(id)
       .then((resultado: ResultSetHeader) => {
         if (resultado.affectedRows == 1) {
-          console.log(`Usuario eliminado`);
+          resolve({ok: true, message: "Reserva eliminada"})
         } else {
-          console.log("No se pudo eliminar el usuario");
+          resolve({ok: false, message: "No se pudo eliminar el usuario"});
         }
       })
       .catch((error) => {
-        console.log("Ha ocurrido un error eliminando.");
-        console.log(error);
-      });
+         reject({ ok: false, message: "Error al eliminar el usuario" });
+      });*/
   }
+}
 }
