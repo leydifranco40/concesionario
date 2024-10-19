@@ -12,9 +12,11 @@ export const routesReservas = () => {
   router.post("/reservas", async(req, res) => {
     const payload = req.body
     try{
+      console.log(req.body)
       const result = await reservasCtrl.agregar(payload)
       res.send(result);
     }catch(error){
+      console.error(error)
       res.status(500).send({
         message:"ha ocurrido un error al agregar la reserva "
       }
@@ -30,13 +32,12 @@ export const routesReservas = () => {
       const result = await reservasCtrl.actualizar(payload)
       res.send(result);
     }catch(error){
+      console.error(error)
       res.status(500).send({
         message:"ha ocurrido un error al actualizar la reserva "
-      }
-        
+      }        
       )
-    }
-    
+    }   
   });
 
 //GET - OBTENER TODAS LAS RESERVAS 
@@ -89,10 +90,7 @@ export const routesReservas = () => {
       res.status(500).send({
         message: "Ha ocurrido un error al eliminar la reserva",
       });
-    }
-    
-    
-  });
-
+    }   
+  })
   return router;
 };

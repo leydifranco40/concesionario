@@ -2,13 +2,13 @@ export class Reservas{
     id?: number;
     usuario_id: number;
     vehiculo_id: number;
-    fecha_reserva: string|number;
+    fecha_reserva: Date
 
     constructor(infoReservas:{
         id:number;
         usuario_id:number;
         vehiculo_id:number;
-        fecha_reserva:string|number;
+        fecha_reserva:Date;
     }){
         this.id = infoReservas.id;
         this.usuario_id = infoReservas.usuario_id;

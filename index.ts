@@ -9,6 +9,7 @@ const createServer = () => {
 
   const PORT = process.env.PORT || 3000;
 
+  app.use(Express.json())
   // Generación del primero recurso:
   // Endpoint o url: http://localhost:3000/hola-mundo
   app.get("/api", (req, res) => {

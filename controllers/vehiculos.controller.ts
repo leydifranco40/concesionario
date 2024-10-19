@@ -31,9 +31,10 @@ export class VehiculosController {
       }
     } catch (error: any) {
       console.log("Ha ocurrido un error al crear el vehiculo.", error?.message);
-      throw error;
+      throw new Error(`Error al registrar el usuario: ${error.message}`)
     }
   }
+
 //ACTUALIZAR
   async actualizar(payload: {
     id: number;
@@ -54,9 +55,9 @@ export class VehiculosController {
       } else {
         return {ok: false, message:"No se pudo actualizar el Vehiculo"};
       }
-    } catch (error) {
+    } catch (error:any) {
       console.log("Ha ocurrido un error actualizando");
-      throw error;
+      throw new Error(`Error al actualizar el vehiculo: ${error.message}`)
     }
   }
 
@@ -64,6 +65,8 @@ export class VehiculosController {
   async obtener() {
     try {
       const resultado = await this.repository.obtener();
+      console.log("Vehiculos")
+      console.log(resultado)
       return resultado;
     } catch (error) {
       console.log("Ha ocurrido un error al consultar los vehiculos.");
@@ -80,6 +83,7 @@ export class VehiculosController {
       } else {
         return null
       }
+      return resultado
     } catch (error) {
       console.log("Ha ocurrido un error al consultar el vehiculo.");
       throw error;

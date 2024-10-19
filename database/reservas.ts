@@ -31,7 +31,7 @@ export class ReservasRepository {
     async actualizar(reservas: Reservas) {
       const connection = getPoolConnection();
       const querySql = `UPDATE reservas SET usuario_id = ?, vehiculo_id = ?, fecha_reserva = ? WHERE id = ?`;
-      const values = [reservas.usuario_id, reservas.vehiculo_id, reservas.fecha_reserva]
+      const values = [reservas.usuario_id, reservas.vehiculo_id, reservas.fecha_reserva, reservas.id]
       const result = await connection.query<ResultSetHeader>(querySql, values);
       return result[0];
     };

@@ -9,10 +9,13 @@ export const routesUsuarios = () => {
 
 //POST- AGREGAR EL USUARIO
   router.post("/usuarios", async(req, res) => {
+    const payload = req.body
     try{
-      const result = await usuariosCtrl.agregar(req.body)
+      console.log(req.body)
+      const result = await usuariosCtrl.agregar(payload)
       res.send(result);
     }catch(error){
+      console.error(error)
       res.status(500).send({
         message:"Ha ocurrido un error al agregar el usuario "
       }
@@ -22,10 +25,12 @@ export const routesUsuarios = () => {
 })
 //PUT- ACTUALIZAR UN USUARIO
   router.put("/usuarios", async(req, res) => {
+    const payload = req.body
     try{
-      const result = await usuariosCtrl.actualizar(req.body)
+      const result = await usuariosCtrl.actualizar(payload)
       res.send(result);
     }catch(error){
+      console.error(error)
       res.status(500).send({
         message:"Ha ocurrido un error al actualizar el usuario "
       }
@@ -48,10 +53,18 @@ export const routesUsuarios = () => {
 
   //GET- OBTENER UN USUARIO POR ID
   router.get("/usuarios/:id", async(req, res) => {
-    const id = parseInt(req.params.id)
     try {
+    const id = parseInt(req.params.id)
+    if(Number.isNaN(id)){
+      res.status(400).send({ok: false, message:"Error en el ID enviado"})
+      return
+    }
       const result = await usuariosCtrl.obtenerPorId(id);
-      res.send(result);
+      if (result !== null) {
+      res.send({ ok: true, info: result });
+      }else{
+        res.status(404).send({ok: false, message:"No se encontro el Usuario por ID"})
+      }
     } catch (error) {
       res.status(500).send({
         message: "Ha ocurrido un error al consultar el usuario",
@@ -62,17 +75,20 @@ export const routesUsuarios = () => {
   });
 //DELETE- ELIMINAR UNA RESERVA POR ID
   router.delete("/usuarios/:id", async(req, res) => {
-    const id = parseInt(req.params.id)
     try {
+    const id = parseInt(req.params.id)
+    if (Number.isNaN(id)) {
+      res.status(400).send({ ok: false, message: "Error en el id enviado" });
+      return
+    }
       const result = await usuariosCtrl.eliminar(id);
-      res.send(result);
+      const status = result.ok === true ? 200 : 400;
+      res.status(status).send(result);
     } catch (error) {
       res.status(500).send({
         message: "Ha ocurrido un error al eliminar el usuario",
       });
-    }
-    
-    
+    }    
   })
   return router;
 }

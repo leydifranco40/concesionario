@@ -30,7 +30,7 @@ export class VehiculosRepository {
     async actualizar(vehiculos: Vehiculos) {
       const connection = getPoolConnection();
       const querySql = `UPDATE vehiculos SET marca = ?, modelo = ?, anio = ? WHERE id = ?`;
-      const values = [vehiculos.marca, vehiculos.modelo, vehiculos.anio]
+      const values = [vehiculos.marca, vehiculos.modelo, vehiculos.anio, vehiculos.id]
       const result = await connection.query<ResultSetHeader>(querySql, values);
       return result[0];
     };

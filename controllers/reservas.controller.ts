@@ -13,7 +13,7 @@ export class ReservasController {
     id: number
     usuario_id: number;
     vehiculo_id: number;
-    fecha_reserva: string | number;
+    fecha_reserva: Date
     
   }) {
     try {
@@ -32,20 +32,20 @@ export class ReservasController {
       }   
     } catch (error: any) {
       console.log("Ha ocurrido un error al crear la reserva.", error?.message);
-      throw error;
+      throw new Error(`Error al registrar el usuario: ${error.message}`)
     }
   }
 //ACTUALIZAR
   async actualizar(payload: {
     id: number;
-    usuarios_id: number;
+    usuario_id: number;
     vehiculo_id: number;
-    fecha_reserva: string | number
+    fecha_reserva: Date
   }) {
     try {
       const reservas = new Reservas({
         id: payload.id,
-        usuario_id: payload.usuarios_id,
+        usuario_id: payload.usuario_id,
         vehiculo_id: payload.vehiculo_id,
         fecha_reserva: payload.fecha_reserva
       });
@@ -55,9 +55,9 @@ export class ReservasController {
       } else {
         return {ok: false, message:"No se pudo actualizar la Reserva"};
       }    
-    } catch (error) {
+    } catch (error:any) {
       console.log("Ha ocurrido un error actualizando");
-      throw error;
+      throw new Error(`Error al actualizar la reserva: ${error.message}`)
     }
   }
 
@@ -65,6 +65,8 @@ export class ReservasController {
   async obtener() {
     try {
       const resultado = await this.repository.obtener();
+      console.log("Reservas")
+      console.log(resultado)
       return resultado;
     } catch (error) {
       console.log("Ha ocurrido un error al consultar las reservas.");
@@ -80,6 +82,7 @@ export class ReservasController {
       } else {
         return null;
       }
+      return resultado
     } catch (error) {
       console.log("Ha ocurrido un error al consultar la reserva.");
       throw error;

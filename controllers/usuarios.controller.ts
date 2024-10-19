@@ -1,7 +1,7 @@
 import {  ResultSetHeader } from "mysql2";
 import { Usuarios } from "../models/usuarios";
 import { UsuarioRepository } from "../database/usuarios"; 
-import { userInfo } from "os";
+
 
 export class UsuariosController {
   private repository: UsuarioRepository;
@@ -11,7 +11,7 @@ export class UsuariosController {
   }
 // AGREGAR
   async agregar(payload: {
-    id: number
+    id: number;
     nombre: string;
     email: string;
     telefono: number;
@@ -28,18 +28,17 @@ export class UsuariosController {
         return {ok: true, id: resultado.insertId};
       } else {
         return {ok: false, message:"El usuario no se registró"};
-      }
-      
+      }     
     } catch (error: any) {
       console.log("Ha ocurrido un error al registrar el usuario.", error?.message);
-      throw error;
+      throw new Error(`Error al registrar el usuario: ${error.message}`);
     }
-  
-    }
+  }
+
   
 //ACTUALIZAR
   async actualizar(payload: {
-    id: number
+    id: number;
     nombre: string;
     email: string;
     telefono: number;
@@ -56,11 +55,10 @@ export class UsuariosController {
         return {ok: true, message:"Usuario actualizado"};
       } else {
         return {ok: false, message:"No se pudo actualizarel usuario"};
-      }
-        
-    } catch (error) {
+      }     
+    } catch (error:any) {
       console.log("Ha ocurrido un error actualizando");
-      throw error;
+      throw new Error(`Error al actualizar el usuario: ${error.message}`)
     }
   }
 
